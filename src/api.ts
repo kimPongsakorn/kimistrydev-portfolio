@@ -31,7 +31,7 @@ export const toggleTodo = async (todo: Todo) => {
       ),
     false,
   );
-  await fetch(`${todoPath}?todoId=${todo.id}`, {
+  await fetch(`${todoPath}/${todo.id}`, {
     method: "PUT",
     body: JSON.stringify({ completed: !todo.completed }),
   });
@@ -40,6 +40,6 @@ export const toggleTodo = async (todo: Todo) => {
 
 export const deleteTodo = async (id: string) => {
   mutate(todoPath, todos => todos.filter(t => t.id !== id), false);
-  await fetch(`${todoPath}?todoId=${id}`, { method: "DELETE" });
+  await fetch(`${todoPath}/${id}`, { method: "DELETE" });
   mutate(todoPath);
 };
