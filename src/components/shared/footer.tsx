@@ -1,3 +1,5 @@
+"use client";
+
 import { menuList } from "@/config/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
