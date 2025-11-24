@@ -1,53 +1,34 @@
 "use client";
 
+import { Switch } from "@/components/ui/switch";
+import { brandConfig, menuList, socialList } from "@/config/navigation";
+import { useTheme } from "@/hooks/use-theme";
 import { AnimatePresence, motion } from "framer-motion";
 import Hamburger from "hamburger-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-interface MenuItem {
-  name: string;
-  href: string;
-}
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import Logo from "./logo";
 
 export default function HeadNavigation() {
-  const menuList: MenuItem[] = [
-    {
-      name: "Home",
-      href: "/",
-    },
-    {
-      name: "About",
-      href: "/about",
-    },
-  ];
+  const pathname = usePathname();
 
-  const socialList: MenuItem[] = [
-    {
-      name: "GitHub",
-      href: "https://github.com/kimisry",
-    },
-    {
-      name: "Twitter",
-      href: "https://twitter.com/kimisry",
-    },
-  ];
-
-  const [isDark, setIsDark] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const { isDark, mounted, toggleTheme } = useTheme();
 
-  // Check initial theme on mount
-  useEffect(() => {
-    const body = document.body;
-    setIsDark(body.classList.contains("dark"));
-  }, []);
-
-  const toggleTheme = () => {
-    const body = document.body;
-    body.classList.toggle("dark");
-    setIsDark(body.classList.contains("dark"));
-  };
-
-  const themeIcon = isDark ? "🌙" : "☀️";
+  const themeIcon = (
+    <div className="flex items-center space-x-2">
+      {mounted ? (
+        <Switch
+          id="theme-mode"
+          checked={isDark}
+          onCheckedChange={toggleTheme}
+        />
+      ) : (
+        <div className="w-11 h-6 rounded-full bg-gray-300" /> // Placeholder with same size
+      )}
+    </div>
+  );
 
   const socialItems = socialList.map((social) => (
     <a
@@ -55,40 +36,56 @@ export default function HeadNavigation() {
       href={social.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="mx-4 hover:opacity-70 transition-opacity"
+      className="mx-4 hover:opacity-70 transition-opacity "
     >
-      {social.name}
+      {social.iconPath && (
+        <img
+          src={social.iconPath}
+          alt={social.iconAlt}
+          className="w-4 h-4"
+          style={{
+            filter: isDark ? "invert(1) brightness(2)" : undefined,
+          }}
+        />
+      )}
     </a>
   ));
 
-  const menuItems = menuList.map((menu) => (
-    <Link
-      key={menu.name}
-      href={menu.href}
-      className="mx-4 hover:opacity-70 transition-opacity"
-    >
-      {menu.name}
-    </Link>
-  ));
+  const menuItems = menuList.map((menu, index) => {
+    const isActive = pathname === menu.href;
+    return (
+      <motion.div
+        key={menu.name}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: index * 0.1 }}
+      >
+        <Link
+          href={menu.href}
+          className={`mx-4 hover:opacity-70 transition-opacity font-medium text-black dark:text-white ${
+            isActive ? "underline underline-offset-4" : ""
+          }`}
+        >
+          {menu.name}
+        </Link>
+      </motion.div>
+    );
+  });
 
   return (
     <>
       {/* Desktop Navigation */}
-      <nav className="hidden md:block rounded-full w-full px-8 py-4 bg-white/25 border-2 border-white/25 backdrop-blur-sm">
+      <nav className="hidden md:block rounded-full w-full px-8 py-4 bg-white/25 dark:bg-gray-800 border-2 border-white/25 dark:border-gray-500 backdrop-blur-sm ">
         <div className="flex flex-row items-center">
-          <div className="basis-[15%] font-semibold">&lt;KimisryDev&gt;</div>
-          <div className="basis-[65%] flex flex-row justify-start items-center">
+          <div className="basis-[15%]">
+            <Logo text={brandConfig.displayName} />
+          </div>
+          <div className="basis-[65%] flex flex-row justify-start items-center overflow-x-auto">
             {menuItems}
           </div>
           <div className="basis-[20%] flex flex-row justify-end items-center">
             {socialItems}
-            <button
-              onClick={toggleTheme}
-              className="ml-4 hover:opacity-70 transition-opacity"
-              aria-label="Toggle theme"
-            >
-              {themeIcon}
-            </button>
+            {themeIcon}
           </div>
         </div>
       </nav>
@@ -96,9 +93,14 @@ export default function HeadNavigation() {
       {/* Mobile Navigation */}
       <nav className="flex md:hidden rounded-full w-full px-8 py-4">
         <div className="flex flex-row items-center justify-between w-full">
-          <div className="font-semibold">&lt;KimisryDev&gt;</div>
-          <div className="flex items-center gap-4">
-            <Hamburger toggled={isOpen} toggle={setIsOpen} />
+          <Logo text={brandConfig.displayName} />
+          <div className="flex items-center gap-4 ">
+            <div
+              className="text-base leading-none"
+              style={{ fontSize: "1.25rem", lineHeight: "1.5rem" }}
+            >
+              <Hamburger toggled={isOpen} toggle={setIsOpen} size={20} />
+            </div>
           </div>
         </div>
       </nav>
@@ -116,18 +118,18 @@ export default function HeadNavigation() {
               className="fixed inset-0 bg-black/50 z-40 md:hidden"
               onClick={() => setIsOpen(false)}
             />
-            
+
             {/* Menu Panel */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ 
-                type: "spring", 
-                damping: 25, 
-                stiffness: 200 
+              transition={{
+                type: "spring",
+                damping: 25,
+                stiffness: 200,
               }}
-              className="fixed top-0 right-0 h-screen w-1/2 bg-white z-50 pt-4 will-change-transform md:hidden"
+              className="fixed top-0 right-0 h-screen w-1/2 bg-white z-50 pt-4 will-change-transform md:hidden dark:bg-gray-800"
             >
               {/* ปุ่มปิด */}
               <div className="flex justify-end px-4 mb-4">
@@ -139,32 +141,10 @@ export default function HeadNavigation() {
                   ×
                 </button>
               </div>
-              
-              <div className="flex flex-col gap-4 px-4">
-                {menuList.map((menu) => (
-                  <Link
-                    key={menu.name}
-                    href={menu.href}
-                    onClick={() => setIsOpen(false)}
-                    className="hover:opacity-70 transition-opacity"
-                  >
-                    {menu.name}
-                  </Link>
-                ))}
-                <div className="flex flex-row gap-4 pt-2">
-                  {socialList.map((social) => (
-                    <a
-                      key={social.name}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => setIsOpen(false)}
-                      className="hover:opacity-70 transition-opacity"
-                    >
-                      {social.name}
-                    </a>
-                  ))}
-                </div>
+
+              <div className="flex flex-col gap-4 px-4 mt-12">
+                {menuItems}
+                <div className="flex flex-row gap-4">{socialItems}</div>
               </div>
             </motion.div>
           </>
