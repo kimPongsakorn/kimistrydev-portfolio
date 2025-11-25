@@ -1,7 +1,7 @@
 import ParallaxLayout from "@/components/shared/parallax-layout";
 import { Button } from "@/components/ui/button";
+import { Home } from "lucide-react";
 import Link from "next/link";
-import { IoHomeOutline } from "react-icons/io5";
 import "../styles/globals.css";
 
 export default function GlobalNotFound() {
@@ -19,9 +19,9 @@ export default function GlobalNotFound() {
             <Link href="/">
               <Button
                 variant="outline"
-                className="text-lg md:text-xl font-light text-gray-500 dark:text-gray-400 "
+                className="text-lg md:text-xl font-light text-gray-500 dark:text-gray-400 gap-3"
               >
-                <IoHomeOutline className="w-6 h-6" />
+                <Home className="w-6 h-6" />
                 กลับสู่หน้าหลัก
               </Button>
             </Link>
