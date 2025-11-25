@@ -1,10 +1,15 @@
+"use client";
+
 import ParallaxLayout from "@/components/shared/parallax-layout";
 import { Button } from "@/components/ui/button";
 import { Home } from "lucide-react";
-import Link from "next/link";
 import "../styles/globals.css";
 
 export default function GlobalNotFound() {
+  const handleGoHome = () => {
+    window.location.href = "/";
+  };
+
   return (
     <html lang="en">
       <body>
@@ -19,12 +24,10 @@ export default function GlobalNotFound() {
             <Button
               variant="outline"
               className="text-lg md:text-xl font-light text-gray-500 dark:text-gray-400 gap-3"
-              asChild
+              onClick={handleGoHome}
             >
-              <Link href="/">
-                <Home className="w-6 h-6" />
-                กลับสู่หน้าหลัก
-              </Link>
+              <Home className="w-6 h-6" />
+              กลับสู่หน้าหลัก
             </Button>
           </div>
         </ParallaxLayout>
