@@ -57,7 +57,7 @@ const Home = () => {
           <div className="max-w-7xl mx-auto w-full px-4">
             <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-8 shadow-lg">
               <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                เกยวกับฉัน
+                เกี่ยวกับฉัน
               </h2>
               <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
                 ผมเป็น Flutter Developer ที่มีความหลงไหลในการพัฒนาแอปพลิเคชัน

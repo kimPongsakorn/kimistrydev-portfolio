@@ -3,14 +3,12 @@ import { Button } from "../ui/button";
 
 export default function HeroSection() {
   const BannerOpenWork = ({ className }: { className?: string }) => {
-    // สร้างข้อความซ้ำๆ (เช่น 20 รอบ) พร้อมตัวคั่นเท่ๆ
     const repeatCount = 5;
     const textContent = Array(repeatCount).fill("OPEN WORK").join("  •  ");
 
     return (
       <div className={`${className || ""} overflow-hidden pointer-events-none`}>
         <div className="w-full bg-green-500 dark:bg-green-800 text-white dark:text-gray-300 font-bold text-xs md:text-sm uppercase tracking-wider drop-shadow-lg py-1 whitespace-nowrap flex justify-center">
-          {/* แสดงข้อความที่สร้างไว้ */}
           {textContent}
         </div>
       </div>
@@ -30,18 +28,18 @@ export default function HeroSection() {
           </p>
 
           <p className="text-base sm:text-lg md:text-xl text-gray-400 leading-relaxed max-w-2xl">
-            เปลี่ยนไอเดียเป็นแอปที่ใช้งานได้จริง
+            Turning ideas into production-ready apps.
             <br className="hidden sm:block" />
             <span className="sm:hidden"> </span>
-            เน้น Code คุณภาพ, Performance ที่ลื่นไหล และ UX ที่ตอบโจทย์ผู้ใช้
+            Clean code, smooth performance, and user-first experiences.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-2 sm:mt-4 w-full sm:w-auto">
             <Link href="/projects">
-              <Button variant="outline">ดูผลงาน</Button>
+              <Button variant="outline">Projects</Button>
             </Link>
             <Link href="/contact">
-              <Button variant="outline">ติดต่อ</Button>
+              <Button variant="outline">Contact</Button>
             </Link>
           </div>
         </div>
@@ -55,8 +53,6 @@ export default function HeroSection() {
             />
 
             <BannerOpenWork
-              // แก้จาก w-[150px] เป็น w-[300px] (ให้ยาวขึ้นมาก)
-              // แล้วลองปรับ top กับ right ใหม่เพื่อดึงให้เข้ามุม
               className="absolute top-[30px] -right-[100px] w-[300px] rotate-45 z-10 flex justify-center pointer-events-none"
             />
           </div>
