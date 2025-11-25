@@ -16,15 +16,16 @@ export default function GlobalNotFound() {
             <p className="text-lg md:text-xl pb-12 font-light">
               This page does not exist.
             </p>
-            <Link href="/">
-              <Button
-                variant="outline"
-                className="text-lg md:text-xl font-light text-gray-500 dark:text-gray-400 gap-3"
-              >
+            <Button
+              variant="outline"
+              className="text-lg md:text-xl font-light text-gray-500 dark:text-gray-400 gap-3"
+              asChild
+            >
+              <Link href="/">
                 <Home className="w-6 h-6" />
                 กลับสู่หน้าหลัก
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </ParallaxLayout>
       </body>
