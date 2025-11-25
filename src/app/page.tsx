@@ -15,7 +15,6 @@ const Home = () => {
   });
   const [isVisible, setIsVisible] = useState(true);
   
-  // ใช้ useMotionValueEvent เพื่อ trigger animation เมื่อ scroll เปลี่ยน
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     setIsVisible(latest < 0.1);
   });
