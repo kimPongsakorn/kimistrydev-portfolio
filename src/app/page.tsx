@@ -2,43 +2,21 @@
 "use client";
 
 import { HeroSection } from "@/components/home";
+import { FixedNav } from "@/components/shared/fixed-nav";
 import Footer from "@/components/shared/footer";
 import ParallaxLayout from "@/components/shared/parallax-layout";
-import { motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { useRef, useState } from "react";
-import HeadNavigation from "../components/shared/head_navi";
+import { useScrollVisibility } from "@/hooks/use-scroll-visibility";
+import { useRef } from "react";
 
 const Home = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    container: scrollContainerRef,
-  });
-  const [isVisible, setIsVisible] = useState(true);
-  
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    setIsVisible(latest < 0.1);
-  });
+  const isVisible = useScrollVisibility(scrollContainerRef);
+
   
   return (
     <ParallaxLayout backgroundImage="/fond_ecran_haut.svg">
       {/* Fixed header */}
-      <motion.div
-        initial={{ opacity: 1, y: 0 }}
-        animate={{ 
-          opacity: isVisible ? 1 : 0,
-          y: isVisible ? 0 : -100,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 100,
-          damping: 20,
-          mass: 0.5,
-        }}
-        className="fixed top-0 left-0 right-0 w-full z-20 p-4"
-      >
-        <HeadNavigation />
-      </motion.div>
-
+      <FixedNav isVisible={isVisible} />
       {/* Scroll snapping container (vertical) */}
       <div 
         ref={scrollContainerRef}

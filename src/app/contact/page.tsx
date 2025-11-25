@@ -1,7 +1,7 @@
 "use client";
 
+import { FixedNav } from "@/components/shared/fixed-nav";
 import Footer from "@/components/shared/footer";
-import HeadNavigation from "@/components/shared/head_navi";
 import ParallaxLayout from "@/components/shared/parallax-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -10,25 +10,18 @@ import { FormField } from "@/components/ui/form-field";
 import { Textarea } from "@/components/ui/textarea";
 import { Title } from "@/components/ui/title";
 import { contactList } from "@/config/contact";
+import { useScrollVisibility } from "@/hooks/use-scroll-visibility";
 import { typography } from "@/lib/typography";
 import { cn } from "@/lib/utils";
-import { motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 export default function ContactPage() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    container: scrollContainerRef,
-  });
-  const [isVisible, setIsVisible] = useState(true);
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    setIsVisible(latest < 0.1);
-  });
+  const isVisible = useScrollVisibility(scrollContainerRef);
 
   const CardSendEmail = () => {
     return (
-      <Card className="w-[calc(100%-20px)] mx-[10px]">
+      <Card className="w-[calc(100%-10px)] md:w-[calc(100%-20px)] mx-[10px]">
         <CardContent>
           <form>
             <div className="flex flex-col">
@@ -113,35 +106,19 @@ export default function ContactPage() {
 
   return (
     <ParallaxLayout backgroundImage="/fond_ecran_haut.svg">
+      <FixedNav isVisible={isVisible} />
       <div
         ref={scrollContainerRef}
         className="snap-y snap-mandatory overflow-y-scroll h-screen w-full"
       >
-        <motion.div
-          initial={{ opacity: 1, y: 0 }}
-          animate={{
-            opacity: isVisible ? 1 : 0,
-            y: isVisible ? 0 : -100,
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 100,
-            damping: 20,
-            mass: 0.5,
-          }}
-          className="fixed top-0 left-0 right-0 w-full z-20 p-4"
-        >
-          <HeadNavigation />
-        </motion.div>
-
         <section className="snap-always snap-center w-full min-h-screen flex items-center justify-center ">
-          <div className="flex flex-col items-start w-full max-w-4xl m-8">
+          <div className="flex flex-col items-start w-full max-w-4xl m-4 md:m-8">
             <Title
               title="Let's connect"
               description="By email or on my social media."
             />
             <CardSendEmail />
-            <div className="flex flex-row items-center justify-center gap-2 w-full m-4">
+            <div className="flex flex-row items-center justify-center gap-2 w-full m-2 md:m-2">
               {itemsContact}
             </div>
           </div>
