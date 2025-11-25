@@ -26,15 +26,20 @@ export default function Footer() {
       <div className="relative z-10 w-full h-full px-4 py-4 md:py-0">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 h-full">
           <div className="flex items-center justify-center h-full">
-            <Logo className="text-2xl text-gray-900 dark:text-white" />
+            <Logo
+              className="text-2xl"
+              textClassName="text-gray-900 dark:text-gray-900"
+            />
           </div>
           <div className="h-full flex flex-col items-start justify-center gap-2">
-            <div className="text-gray-900 dark:text-white text-sm font-semibold mb-1">Menus</div>
+            <div className="text-gray-900 dark:text-gray-900 text-sm font-semibold mb-1">
+              Menus
+            </div>
             {menuList.map((menu) => (
               <Link
                 key={menu.name}
                 href={menu.href}
-                className="text-gray-900 dark:text-white hover:opacity-70 transition-opacity text-sm"
+                className="text-gray-900 dark:text-gray-900 hover:opacity-70 transition-opacity text-sm"
               >
                 {menu.name}
               </Link>

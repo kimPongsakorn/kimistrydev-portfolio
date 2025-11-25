@@ -42,7 +42,7 @@ export default function ParallaxLayout({
         <motion.img
           src={backgroundImage}
           alt="bg gradient"
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          className="absolute inset-0 w-full h-full object-cover z-0 dark:grayscale-25"
           style={{
             y,
             opacity,
